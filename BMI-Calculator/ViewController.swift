@@ -7,13 +7,71 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
 
+    @IBOutlet weak var heightTextField: UITextField!
+    
+    @IBOutlet weak var weightTextField: UITextField!
+    
+    @IBOutlet weak var resultButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        heightTextField.delegate = self
+        weightTextField.delegate = self
+        
+        
+        setting()
+        
+        let tapGesture = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))
+                view.addGestureRecognizer(tapGesture)
+        
+    }
+    
+    
+    func setting(){
+        heightTextField.layer.cornerRadius = 12
+        heightTextField.layer.masksToBounds  = true
+        heightTextField.placeholder = "cm단위로 입력해주세요"
+        heightTextField.keyboardType = .numberPad
+        
+        
+        
+        weightTextField.layer.cornerRadius = 12
+        weightTextField.layer.masksToBounds  = true
+        weightTextField.placeholder = "kg단위로 입력해주세요"
+        weightTextField.keyboardType = .numberPad
+        
+        
+        
+        resultButton.layer.cornerRadius = 12
+        resultButton.layer.masksToBounds  = true
+        
     }
 
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        // get the current text, or use an empty string if that failed
+        let currentText = textField.text ?? ""
 
+        // attempt to read the range they are trying to change, or exit if we can't
+        guard let stringRange = Range(range, in: currentText) else { return false }
+
+        // add their new text to the existing text
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+
+        // make sure the result is under 16 characters
+        return updatedText.count <= 3
+    }
+    
+    @IBAction func resultButtonTapped(_ sender: UIButton) {
+        guard let BMIResult = storyboard?.instantiateViewController(withIdentifier: "BMIResult") as? BMIResultViewController else { return }
+        BMIResult.modalPresentationStyle = .fullScreen
+        BMIResult.weight = weightTextField.text
+        BMIResult.height = heightTextField.text
+        present(BMIResult, animated: true, completion: nil)
+        weightTextField.text = nil
+        heightTextField.text = nil
+    }
+    
 }
-
