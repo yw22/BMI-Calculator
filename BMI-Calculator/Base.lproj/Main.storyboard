@@ -92,6 +92,7 @@
                     </view>
                     <connections>
                         <outlet property="heightTextField" destination="BSk-yb-UWi" id="A9S-EX-SLq"/>
+                        <outlet property="mainLabel" destination="bOp-WQ-glT" id="6ge-8W-jxa"/>
                         <outlet property="resultButton" destination="Xxh-xK-TCI" id="CrK-gU-MNb"/>
                         <outlet property="weightTextField" destination="ywl-kb-NAg" id="HZS-BL-DUP"/>
                     </connections>
