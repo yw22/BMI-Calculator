@@ -11,10 +11,10 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var mainLabel: UILabel!
     @IBOutlet weak var heightTextField: UITextField!
-    
     @IBOutlet weak var weightTextField: UITextField!
-    
     @IBOutlet weak var resultButton: UIButton!
+    
+    var bmiManager = BMICalculator()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,33 +24,28 @@ class ViewController: UIViewController {
         
         setting()
         setupToolbar()
-        
     }
     
     
     func setting(){
+        
         heightTextField.layer.cornerRadius = 12
         heightTextField.layer.masksToBounds  = true
         heightTextField.placeholder = "cm단위로 입력해주세요"
         heightTextField.keyboardType = .default
-        
-        
         
         weightTextField.layer.cornerRadius = 12
         weightTextField.layer.masksToBounds  = true
         weightTextField.placeholder = "kg단위로 입력해주세요"
         weightTextField.keyboardType = .default
         
-        
-        
         resultButton.layer.cornerRadius = 12
         resultButton.layer.masksToBounds  = true
         
     }
     
-    
-    
     func setupToolbar(){
+        
         //Create a toolbar
         let bar = UIToolbar()
         //Create a done button with an action to trigger our function to dismiss the keyboard
@@ -61,29 +56,33 @@ class ViewController: UIViewController {
         bar.items = [flexSpace, flexSpace, doneBtn]
         bar.sizeToFit()
         //Add the toolbar to our textfield
+        
         heightTextField.inputAccessoryView = bar
         weightTextField.inputAccessoryView = bar
-    }
-    
-    
-    @IBAction func resultButtonTapped(_ sender: UIButton) {
-        guard let BMIResult = storyboard?.instantiateViewController(withIdentifier: "BMIResult") as? BMIResultViewController else { return }
-        BMIResult.modalPresentationStyle = .fullScreen
-        BMIResult.weight = weightTextField.text
-        BMIResult.height = heightTextField.text
-        if heightTextField.text == "" || weightTextField.text == ""{
-            mainLabel.text = "키와 몸무게를 입력해주세요"
-            mainLabel.textColor = #colorLiteral(red: 0.8549019694, green: 0.250980407, blue: 0.4784313738, alpha: 1)
-        } else {
-            present(BMIResult, animated: true, completion: nil)
-            weightTextField.text = nil
-            heightTextField.text = nil
-        }
     }
     
     @objc func dismissMyKeyboard(){
         view.endEditing(true)
     }
+    
+    @IBAction func resultButtonTapped(_ sender: UIButton) {
+        guard let BMIResult = storyboard?.instantiateViewController(withIdentifier: "BMIResult") as? BMIResultViewController else { return }
+        BMIResult.modalPresentationStyle = .fullScreen
+        if heightTextField.text == "" || weightTextField.text == "" {
+            mainLabel.text = "키와 몸무게를 입력해주세요"
+            mainLabel.textColor = #colorLiteral(red: 0.8549019694, green: 0.250980407, blue: 0.4784313738, alpha: 1)
+        } else {
+            bmiManager.calculator(heightTextField.text!, weightTextField.text!)
+            BMIResult.bmi = bmiManager.getBMIResult()
+            
+            present(BMIResult, animated: true, completion: nil)
+            weightTextField.text = nil
+            heightTextField.text = nil
+            
+        }
+    }
+    
+
     
 }
 
