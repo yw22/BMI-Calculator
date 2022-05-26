@@ -17,14 +17,9 @@ UIBarButtonItem
 ---
 ## **구현내용**
 
-
 -  ##### BMI계산
 
 -  ##### numberPad Done 표시
-
--  ##### 
-
--  ##### 
 
 ---
 ## **프로젝트를 하면서 배운점**
@@ -41,4 +36,4 @@ MVC(Model - View - Controller) 디자인 패턴
 
 ---
 ## **구현 영상**
-<img width="50%" src="https://user-images.githubusercontent.com/100309352/170446030-488e9897-5d2b-4a95-a157-ecac0898a6e8.gif"/>  
+<img width="70%" src="https://user-images.githubusercontent.com/100309352/170446030-488e9897-5d2b-4a95-a157-ecac0898a6e8.gif"/>  
